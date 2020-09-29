@@ -5,17 +5,24 @@ public class Counter {
     private int minmum;
     private int maximun;
 
+
     public Counter(int minmum, int maximum) {
         this.maximun = maximum;
         this.minmum = minmum;
         this.counter = 0;
     }
 
+
+    public int setValue(int i ) {
+        return this.counter = i;
+    }
     public int getValue() {
+
         return this.counter;
     }
 
     public void initCounter() {
+
         this.counter = 0;
     }
 
