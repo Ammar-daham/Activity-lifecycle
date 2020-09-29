@@ -15,27 +15,25 @@ public class MainActivity extends AppCompatActivity {
     Counter resume = new Counter(-100, 100);
     TextView createTv, startTv, resumeTv;
     Button resetBtn;
-    int created;
-    int started;
-    int resumed;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d("Create","onCreate called");
         createTv = findViewById(R.id.create);
         startTv = findViewById(R.id.start);
         resumeTv = findViewById(R.id.resume);
         resetBtn = findViewById(R.id.resetBtn);
+
         // Read from value.xml
         SharedPreferences sharedPreferences = getSharedPreferences("value", Activity.MODE_PRIVATE);
         int cr = sharedPreferences.getInt("Created",0);
         int st = sharedPreferences.getInt("Started",0);
         int re = sharedPreferences.getInt("Resumed",0);
-        Log.d("Started from value.xml", String.valueOf(st));
+
+
         // if the creation has values --> not zero
         if(cr !=0 ) {
             create.setValue(cr);
@@ -44,17 +42,16 @@ public class MainActivity extends AppCompatActivity {
             sharedPref(0);
             updateUi();
             create.plusCounter();
-
             Log.d("started", "there is some value");
         }
+
         // if its run for the first time.
         if(cr == 0) {
             create.plusCounter();
             sharedPref(0);
-
         }
 
-        Log.d("Create","onCreate called");
+
 
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUi() {
-
         createTv.setText(Integer.toString(create.getValue()));
         startTv.setText(Integer.toString(start.getValue()));
         resumeTv.setText(Integer.toString(resume.getValue()));
@@ -102,15 +98,13 @@ public class MainActivity extends AppCompatActivity {
     public void sharedPref(int operation) {
         SharedPreferences prefPut = getSharedPreferences("value", Activity.MODE_PRIVATE);
         SharedPreferences.Editor prefEditor = prefPut.edit();
-        created = create.getValue();
-        started =start.getValue();
-        resumed = resume.getValue();
+
         switch (operation) {
             case 0:
             {
-                prefEditor.putInt("Created",created);
-                prefEditor.putInt("Started",started);
-                prefEditor.putInt("Resumed",resumed);
+                prefEditor.putInt("Created", create.getValue());
+                prefEditor.putInt("Started",start.getValue());
+                prefEditor.putInt("Resumed",resume.getValue());
                 prefEditor.commit();
                 break;
             }
@@ -127,14 +121,5 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("error", "invalid operation parameter" );
                 break;
         }
-    }
-    public void showSharedPref() {
-        SharedPreferences sharedPreferences = getSharedPreferences("value", Activity.MODE_PRIVATE);
-        int cr = sharedPreferences.getInt("Created",40);
-        int st = sharedPreferences.getInt("Started",20);
-        int re = sharedPreferences.getInt("Resumed",30);
-        createTv.setText(String.valueOf(cr));
-        startTv.setText(String.valueOf(st));
-        resumeTv.setText(String.valueOf(re));
     }
 }
